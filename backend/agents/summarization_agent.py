@@ -1,12 +1,16 @@
 from google.adk.agents import LlmAgent
+import os
+from dotenv import load_dotenv
+load_dotenv()
+from tools.extract_themes import extract_themes_tool
+from tools.trust_score import calculate_trust_score_tool
+from tools.synthesize_summary import synthesize_summary_tool
 
-from backend.tools.extract_themes import extract_themes_tool
-from backend.tools.trust_score import calculate_trust_score_tool
-from backend.tools.synthesize_summary import synthesize_summary_tool
+
 
 summarization_agent = LlmAgent(
     name="summarization_agent",
-    model="gemini-2.5-pro",
+    model="openai/gpt-4o-mini",
     description=(
         "Extracts themes from reviews, calculates a trust score, and synthesizes "
         "an overall business summary with pros, cons, and an audience tag."
@@ -29,9 +33,16 @@ Follow these steps strictly in order:
 
 3. Call `synthesize_summary` with `sentiment_results` and `theme_results`.
 
-4. Return a single combined dict:
+4. Return a single combined dict:   
    {
-     "trust_score_result": <result from step 2>,
+     "trust_score_result": {
+        "trust_score": ,
+        "breakdown": {
+            "sentiment_component": ,
+            "consistency_component": ,
+            "outlier_penalty":
+        }
+    },
      "summary": <result from step 3>
    }
 

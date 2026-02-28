@@ -1,12 +1,16 @@
 from google.adk.agents import LlmAgent
 from google.adk.tools import AgentTool
+import os
+from dotenv import load_dotenv
+load_dotenv()
+from agents.sentiment_agent import sentiment_agent
+from agents.summarization_agent import summarization_agent
 
-from backend.agents.sentiment_agent import sentiment_agent
-from backend.agents.summarization_agent import summarization_agent
+
 
 orchestrator = LlmAgent(
     name="orchestrator",
-    model="gemini-2.5-pro",
+    model="openai/gpt-4o-mini",
     description=(
         "Orchestrates the full local business review analysis pipeline: "
         "sentiment scoring followed by theme extraction, trust scoring, and summarization."
